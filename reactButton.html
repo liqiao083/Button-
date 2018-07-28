@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Hello React!</title>
+	<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+	<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+	<script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script>
+	<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+	<script type="text/babel">
+		class PutData extends React.Component {
+			  constructor() {
+			    super()
+			    this.state = { isClickable: true }
+		  }
+		  handleButtonClickTest = (e) => {
+		    this.setState({ isClickable: false })
+		    const promise = new Promise((resolve, reject) => {
+		      setTimeout(resolve, 3000)
+		    })
+		    promise.then(() => {
+		      this.setState({ isClickable: true })
+		    })
+		  }   
+		  handleButtonClick = (e) => {
+		 	this.setState({ isClickable: false })	
+		    fetch('https://www.baidu.com/', {
+		      method: 'GET'
+		    })
+		    .then((response) => {
+		      if (!response.ok) throw new Error(response.statusText)
+		      return response.json()
+		    })
+		    .then((items) => {
+
+		      this.setState({ isClickable: true })
+		    })
+		    .catch((error) => {
+		      this.setState({ isClickable: true })
+		      console.error(error)
+		    })
+		  }
+		    render() {
+		    return (
+		     <button onClick={this.handleButtonClickTest} 
+		     disabled={!this.state.isClickable}>
+             {this.state.isClickable ? '向服务端发送数据' : '正在响应中...'}
+      		</button>
+		    )
+		  }
+		  }
+		  ReactDOM.render(
+		  <PutData />,
+		  document.getElementById('example')
+		);	
+	</script>
+</body>
+</html>
